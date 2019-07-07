@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  postgres:
+    image: 'postgres:9.6-alpine'
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=documize
+      - POSTGRES_USER=documize
+      - POSTGRES_DB=documize
+
+  documize:
+    build:
+      dockerfile: Dockerfile
+      context: ./documize
+    depends_on: 
+      - postgres
+    ports:
+      - 5001:5001
+    environment: 
+      - DOCUMIZEDB="host=postgres port=5432 dbname=documize user=documize password=documize sslmode=disable"
+      - DOCUMIZEDBTYPE=postresql
+      - DOCUMIZESALT=weownthesourcecode
