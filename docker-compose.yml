@@ -1,12 +1,13 @@
 version: '3'
 
 services:
+
   postgres:
     image: 'postgres:9.6-alpine'
     volumes:
       - ./pgdata:/var/lib/postgresql/data
-    ports:
-      - 5432:5432
+  #    ports:
+  #      - 5432:5432
     environment:
       - POSTGRES_PASSWORD=documize
       - POSTGRES_USER=documize
@@ -20,7 +21,15 @@ services:
       - postgres
     ports:
       - 5001:5001
-    environment: 
-      - DOCUMIZEDB="host=postgres port=5432 dbname=documize user=documize password=documize sslmode=disable"
-      - DOCUMIZEDBTYPE=postresql
-      - DOCUMIZESALT=weownthesourcecode
+
+  nginx:
+    # restart: always
+    depends_on: 
+      - documize
+    build:
+      dockerfile: Dockerfile
+      context: ./nginx
+    volumes:
+      - ./nginxlog:/var/log/nginx
+    ports: 
+      - '8080:8080'
