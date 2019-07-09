@@ -32,4 +32,4 @@ services:
     volumes:
       - ./nginxlog:/var/log/nginx
     ports: 
-      - '8080:8080'
+      - '443:443'

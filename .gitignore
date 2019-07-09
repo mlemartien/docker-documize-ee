@@ -1,3 +1,5 @@
 pgdata/
 nginxlog/
 .DS_Store
+documize_nginx.crt
+documize_nginx.key
